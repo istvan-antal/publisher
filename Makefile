@@ -7,7 +7,8 @@ requirements = var \
 	phpunit.xml
 
 build: $(requirements)
-	#./vendor/squizlabs/php_codesniffer/scripts/phpcs --extensions=php --standard=standard/Clean -s src/
+	./vendor/bin/phpcs --extensions=php --standard=app/standard/Clean -s src/
+	./vendor/bin/phpmd src/ text app/standard/phpmd.xml
 	sed -i '' -e 's/version: .*$$/version: $(VERSION_ESCAPED)/g' app/config/parameters.yml
 	php70 bin/console cache:clear -e dev
 	php70 bin/console cache:clear -e prod

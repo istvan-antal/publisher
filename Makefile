@@ -12,14 +12,14 @@ build: $(requirements)
 	sed -i '' -e 's/version: .*$$/version: $(VERSION_ESCAPED)/g' app/config/parameters.yml
 	php70 bin/console cache:clear -e dev
 	php70 bin/console cache:clear -e prod
-	#php70 bin/console doctrine:migrations:migrate --no-interaction
+	php70 bin/console doctrine:migrations:migrate --no-interaction
 	make test
 
 test:
 	php70 ./vendor/bin/phpunit -c .
 
 migrations:
-	#php70 bin/console doctrine:migrations:diff --no-interaction
+	php70 bin/console doctrine:migrations:diff --no-interaction
 
 node_modules: package.json
 	npm install

@@ -1,6 +1,39 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Publisher</h1>
-    <h2>{{version}}</h2>
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            Home
+        </li>
+    </ul>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>State</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Published posts</td>
+                <td>{{ stateCounts.published }}</td>
+            </tr>
+            <tr>
+                <td>Drafts</td>
+                <td>{{ stateCounts.draft }}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <a class="btn" href="{{ path('posts_index') }}">
+                        View
+                    </a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <small class="float-right">{{version}}</small>
 {% endblock %}

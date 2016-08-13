@@ -4,6 +4,8 @@ VERSION_ESCAPED:=$(subst .,\.,$(VERSION))
 
 requirements = var \
 	vendor \
+	node_modules \
+	web/main.css \
 	phpunit.xml
 
 build: $(requirements)
@@ -14,6 +16,10 @@ build: $(requirements)
 	php70 bin/console cache:clear -e prod
 	php70 bin/console doctrine:migrations:migrate --no-interaction
 	make test
+
+web/main.css: node_modules
+	cp node_modules/spectre.css/dist/spectre.min.css web/main.css
+	touch web/main.css
 
 test:
 	php70 ./vendor/bin/phpunit -c .

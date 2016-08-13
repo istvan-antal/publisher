@@ -3,6 +3,8 @@
 /phpunit.xml
 /var
 /vendor/
-/web/bundles/
+/node_modules
+/web/bundles
+/web/main.css
 .DS_Store
 /nbproject

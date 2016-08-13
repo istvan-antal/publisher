@@ -21,8 +21,6 @@ class PostType extends AbstractType {
                 ->add('url')
                 ->add('content', TextareaType::class)
                 ->add('state')
-                ->add('created')
-                ->add('user')
         ;
     }
 

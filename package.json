@@ -1,7 +1,7 @@
 {
   "name": "publisher",
   "version": "0.0.1",
-  "description": "publisher =========",
+  "description": "publisher",
   "main": "index.js",
   "directories": {
     "test": "tests"
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/istvan-antal/publisher/issues"
   },
-  "homepage": "https://github.com/istvan-antal/publisher#readme"
+  "homepage": "https://github.com/istvan-antal/publisher#readme",
+  "dependencies": {
+    "spectre.css": "^0.1.25"
+  }
 }

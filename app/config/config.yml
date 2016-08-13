@@ -39,6 +39,8 @@ twig:
     strict_variables: "%kernel.debug%"
     form_themes:
         - 'form/fields.html.twig'
+    globals:
+        version: '%version%'
 
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'

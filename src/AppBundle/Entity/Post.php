@@ -185,4 +185,15 @@ class Post {
     public function getUser() {
         return $this->user;
     }
+    
+    private $transformedContent;
+    
+    public function setTransformedContent($content) {
+        $this->transformedContent = $content;
+        return $this;
+    }
+    
+    public function getTransformedContent() {
+        return $this->transformedContent;
+    }
 }

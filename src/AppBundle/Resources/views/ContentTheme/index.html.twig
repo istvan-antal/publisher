@@ -1,0 +1,8 @@
+{% extends 'ContentTheme/base.html.twig' %}
+
+{% block body -%}
+    {% for post in posts %}
+        <h2>{{ post.title }}</h2>
+        {{ post.transformedContent | raw }}
+    {% endfor %}
+{% endblock %}

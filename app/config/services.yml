@@ -6,4 +6,13 @@ parameters:
 services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name
+    time_format_twig_service:
+        class: AppBundle\Twig\Extension\TimeFormatExtension
+        arguments:
+            - '@time_format_service'
+        tags:
+            - { name: "twig.extension" }
+
+    time_format_service:
+        class: AppBundle\Formatter\TimeFormatter

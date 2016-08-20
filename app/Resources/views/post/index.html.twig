@@ -29,7 +29,7 @@
             <tr>
                 <td>{{ post.state }}</td>
                 <td><a href="{{ path('posts_edit', { 'id': post.id }) }}">{{ post.title }}</a></td>
-                <td>{% if post.created %}{{ post.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if post.created %}{{ post.created | time_format }} ago{% endif %}</td>
             </tr>
         {% endfor %}
         </tbody>

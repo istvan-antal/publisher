@@ -34,6 +34,34 @@
             </tr>
         </tfoot>
     </table>
+                        
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Job</th>
+                <th>Status</th>
+                <th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for work in workerLogs %}
+            <tr>
+                <td>{{ work.type }}</td>
+                <td>{{ work.status }}</td>
+                <td>{{ work.createdAt | time_format }} ago</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">
+                    <a class="btn" href="{{ path('posts_index') }}">
+                        View
+                    </a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
 
     <small class="float-right">{{version}}</small>
 {% endblock %}

@@ -2,7 +2,9 @@
 
 {% block body -%}
     {% for post in posts %}
-        <h2>{{ post.title }}</h2>
-        {{ post.transformedContent | raw }}
+        <article>
+            <h2><a href="{{post.url}}.html">{{ post.title }}</a></h2>
+            {{ post.transformedContent | raw }}
+        </article>
     {% endfor %}
 {% endblock %}

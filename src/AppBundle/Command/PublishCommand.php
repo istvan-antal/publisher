@@ -8,29 +8,34 @@ use WorkerBundle\Process;
 use AppBundle\Entity\Post;
 use AppBundle\ContentTransformer;
 use AppBundle\Templating;
+use AppBundle\AssetCompiler;
 
 class PublishCommand extends Process {
     
     protected function process() {
         $transformer = new ContentTransformer();
         $templating = new Templating();
+        $compiler = new AssetCompiler();
         
         $postRepository = $this->em->getRepository('AppBundle:Post');
         /* @var $postRepository \Doctrine\ORM\EntityRepository */
         
-        $publishedContentDirectory = $this->getContainer()->get('kernel')->getRootDir().'/../var/publishedContent';;
+        $projectRootDir = $this->getContainer()->get('kernel')->getRootDir().'/..';
+        $publishedContentDir = "$projectRootDir/var/publishedContent";
         
         $fs = new Filesystem();
         
-        if (!$fs->exists($publishedContentDirectory)) {
-            $fs->mkdir($publishedContentDirectory);
+        if (!$fs->exists($publishedContentDir)) {
+            $fs->mkdir($publishedContentDir);
         }
         
         //$version = time();
         $version = 'latest';
         
-        $publishDir = "$publishedContentDirectory/$version";
+        $publishDir = "$publishedContentDir/$version";
         $fs->mkdir($publishDir);
+        
+        $compiler->compile('src/AppBundle/Resources/views/ContentTheme/main.js', $publishDir);
         
         $posts = $postRepository->findBy(array( 'state' => Post::STATE_PUBLISHED ), array('created' => 'desc'));
         

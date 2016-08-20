@@ -5,7 +5,7 @@ namespace WorkerBundle;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use WorkerBundle\Entity\WorkerLog;
+use WorkerBundle\Entity\WorkerJob;
 
 abstract class Process extends ContainerAwareCommand {
     
@@ -35,17 +35,17 @@ abstract class Process extends ContainerAwareCommand {
         $t1 = time();
         $this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
         
-        $logEntry = new WorkerLog();
+        $logEntry = new WorkerJob();
         $logEntry->setType($this->processName);
         $this->em->persist($logEntry);
         $this->em->flush();
         
-        $crawlStatus = WorkerLog::STATUS_SUCCESS;
+        $crawlStatus = WorkerJob::STATUS_SUCCESS;
         
         try {
             $this->process();
         } catch (\Exception $e) {
-            $crawlStatus = WorkerLog::STATUS_FAILURE;
+            $crawlStatus = WorkerJob::STATUS_FAILURE;
             $logEntry->setErrorMessage("$e");
             
             if ($this->getContainer()->has('worker_notification')) {

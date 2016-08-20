@@ -18,7 +18,7 @@ class DefaultController extends Controller {
         $postsRepository = $em->getRepository('AppBundle:Post');
         /* @var $postsRepository \AppBundle\Entity\PostRepository */
         
-        $workerRepository = $em->getRepository('WorkerBundle:WorkerLog');
+        $workerRepository = $em->getRepository('WorkerBundle:WorkerJob');
         /* @var $workerRepository \Doctrine\ORM\EntityRepository */
         
         $stateCounts = $postsRepository->getCountsByState();

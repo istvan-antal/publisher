@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  */
-class WorkerLog {
+class WorkerJob {
 
     /**
      * @ORM\Id
@@ -77,7 +77,7 @@ class WorkerLog {
     
     /**
      * @param string $status
-     * @return \Data\Entity\WorkerLog
+     * @return \Data\Entity\WorkerJob
      */
     public function setStatus(string $status) {
         $this->status = $status;
@@ -93,7 +93,7 @@ class WorkerLog {
     
     /**
      * @param string $type
-     * @return \Data\Entity\WorkerLog
+     * @return \Data\Entity\WorkerJob
      */
     public function setType(string $type) {
         $this->type = $type;
@@ -109,7 +109,7 @@ class WorkerLog {
     
     /**
      * @param string $errorMessage
-     * @return \Data\Entity\WorkerLog
+     * @return \Data\Entity\WorkerJob
      */
     public function setErrorMessage(string $errorMessage) {
         $this->errorMessage = $errorMessage;

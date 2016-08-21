@@ -18,6 +18,9 @@ class DefaultController extends Controller {
         $postsRepository = $em->getRepository('AppBundle:Post');
         /* @var $postsRepository \AppBundle\Entity\PostRepository */
         
+        $siteRepository = $em->getRepository('AppBundle:Site');
+        /* @var $postsRepository \AppBundle\Entity\PostRepository */
+        
         $workerRepository = $em->getRepository('WorkerBundle:WorkerJob');
         /* @var $workerRepository \Doctrine\ORM\EntityRepository */
         
@@ -25,6 +28,7 @@ class DefaultController extends Controller {
 
         return array(
             'stateCounts' => $stateCounts,
+            'sites' => $siteRepository->findAll(),
             'workerLogs' => $workerRepository->findBy(array(), [ 'createdAt' => 'desc' ], 10),
         );
     }

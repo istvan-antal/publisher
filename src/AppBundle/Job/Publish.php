@@ -29,42 +29,48 @@ class Publish implements JobProcessor {
         $postRepository = $this->em->getRepository('AppBundle:Post');
         /* @var $postRepository \Doctrine\ORM\EntityRepository */
         
-        $publishedContentDir = "$this->projectRootDir/var/publishedContent";
+        $siteRepository = $this->em->getRepository('AppBundle:Site');
+        /* @var $siteRepository \Doctrine\ORM\EntityRepository */
         
-        $fs = new Filesystem();
-        
-        if (!$fs->exists($publishedContentDir)) {
-            $fs->mkdir($publishedContentDir);
-        }
-        
-        //$version = time();
-        $version = 'latest';
-        
-        $publishDir = "$publishedContentDir/$version";
-        $fs->mkdir($publishDir);
-        
-        $compiler->compile('src/AppBundle/Resources/views/ContentTheme/main.js', $publishDir);
-        
-        $posts = $postRepository->findBy(array( 'state' => Post::STATE_PUBLISHED ), array('created' => 'desc'));
-        
-        foreach ($posts as $post) {
-            /* @var $post Post */
-            $post->setTransformedContent($transformer->parse($post->getContent()));
-            
-            $fileName = "$publishDir/".$post->getUrl().'.html';
-            
-            file_put_contents($fileName, $templating->render('ContentTheme/view.html.twig', array(
-                'post' => $post
+        foreach ($siteRepository->findAll() as $site) {
+            /* @var $site \AppBundle\Entity\Site */
+            $publishedContentDir = "$this->projectRootDir/var/publishedContent";
+
+            $fs = new Filesystem();
+
+            if (!$fs->exists($publishedContentDir)) {
+                $fs->mkdir($publishedContentDir);
+            }
+
+            //$version = time();
+            $version = 'latest';
+
+            $publishDir = "$publishedContentDir/$version";
+            $fs->mkdir($publishDir);
+
+            $compiler->compile('src/AppBundle/Resources/views/ContentTheme/main.js', $publishDir);
+
+            $posts = $postRepository->findBy([ 'site' => $site, 'state' => Post::STATE_PUBLISHED ], ['created' => 'desc']);
+
+            foreach ($posts as $post) {
+                /* @var $post Post */
+                $post->setTransformedContent($transformer->parse($post->getContent()));
+
+                $fileName = "$publishDir/".$post->getUrl().'.html';
+
+                file_put_contents($fileName, $templating->render('ContentTheme/view.html.twig', array(
+                    'post' => $post
+                )));
+                //$this->writeln("Written $fileName");
+            }
+
+            $fileName = "$publishDir/index.html";
+
+            file_put_contents($fileName, $templating->render('ContentTheme/index.html.twig', array(
+                'posts' => $posts
             )));
             //$this->writeln("Written $fileName");
         }
-        
-        $fileName = "$publishDir/index.html";
-            
-        file_put_contents($fileName, $templating->render('ContentTheme/index.html.twig', array(
-            'posts' => $posts
-        )));
-        //$this->writeln("Written $fileName");
     }
 
 }

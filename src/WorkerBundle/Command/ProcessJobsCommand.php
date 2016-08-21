@@ -17,6 +17,11 @@ class ProcessJobsCommand extends ContainerAwareCommand {
     /* @var OutputInterface */
     protected $output;
     
+    /**
+     * @param WorkerJob $job
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
     private function processJob(WorkerJob $job) {
         $t1 = time();
         $job->setStatus(WorkerJob::STATUS_WORKING);

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{{ path('site_index') }}">
+                Sites
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            New
+        </li>
+    </ul>
+    
+    <h1>Site creation</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input class="btn-primary btn" type="submit" value="Create" />
+    {{ form_end(form) }}
+    
+{% endblock %}

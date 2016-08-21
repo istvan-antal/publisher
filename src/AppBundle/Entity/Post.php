@@ -16,6 +16,14 @@ class Post {
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    
+    /**
+     * @var Site
+     *
+     * @ORM\ManyToOne(targetEntity="Site")
+     * @ORM\JoinColumn(name="site_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
+     */
+    protected $site;
 
     /**
      * @var string
@@ -184,6 +192,24 @@ class Post {
      */
     public function getUser() {
         return $this->user;
+    }
+    
+    /**
+     * @param Site $site
+     *
+     * @return Post
+     */
+    public function setSite(Site $site) {
+        $this->site = $site;
+
+        return $this;
+    }
+
+    /**
+     * @return Site
+     */
+    public function getSite() {
+        return $this->site;
     }
     
     private $transformedContent;

@@ -10,7 +10,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>State</th>
+                <th>Posts</th>
                 <th>Count</th>
             </tr>
         </thead>
@@ -34,7 +34,7 @@
             </tr>
         </tfoot>
     </table>
-                        
+                 
     <table class="table">
         <thead>
             <tr>
@@ -59,6 +59,26 @@
                         View
                     </a>
                 </td>
+            </tr>
+        </tfoot>
+    </table>
+                        
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Site</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for site in sites %}
+            <tr>
+                <td><a href="{{ path('site_edit', { 'id': site.id }) }}">{{ site.name }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td><a class="btn" href="{{ path('site_new') }}">Create</a></td>
             </tr>
         </tfoot>
     </table>

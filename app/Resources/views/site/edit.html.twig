@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/">
+                Home
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{{ path('site_index') }}">
+                Sites
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            Edit
+        </li>
+    </ul>
+    
+    <h1>Edit site</h1>
+
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <input class="btn-primary btn" type="submit" value="Update" />
+    {{ form_end(edit_form) }}
+
+    <div style="margin-top: 6rem"></div>
+    <div class="divider"></div>
+
+    <div class="mt-10">
+        {{ form_start(delete_form) }}
+        <p>
+            Permanently delete this site.
+        </p>
+        <input class="btn" style="border-color: #de5200; color: #de5200;" type="submit" value="Delete">
+
+        {{ form_end(delete_form) }}
+    </div>
+{% endblock %}

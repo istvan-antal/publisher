@@ -4,9 +4,12 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name
+    worker_job_processor_publish:
+        class: AppBundle\Job\Publish
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - '%kernel.root_dir%'    
+        
     time_format_twig_service:
         class: AppBundle\Twig\Extension\TimeFormatExtension
         arguments:

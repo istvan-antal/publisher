@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Post;
 use AppBundle\Form\PostType;
+use WorkerBundle\Entity\WorkerJob;
 
 /**
  * Post controller.
@@ -86,6 +87,11 @@ class PostController extends Controller {
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
+            
+            $job = new WorkerJob();
+            $job->setType('Publish');
+            $em->persist($job);
+            
             $em->flush();
 
             return $this->redirectToRoute('posts_edit', array('id' => $post->getId()));

@@ -48,4 +48,8 @@ phpunit.xml: phpunit.xml.dist
 system:
 	sudo puppet apply --modulepath=./system system.pp
 
-.PHONY: system build js
+launchd:
+	sudo cp app/devops/worker-process.plist /Library/LaunchDaemons/worker-process.plist
+	sudo launchctl load -w /Library/LaunchDaemons/worker-process.plist
+
+.PHONY: launchd system build js

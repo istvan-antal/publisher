@@ -21,8 +21,9 @@ class WorkerJob {
      *
      * @ORM\Column(type="string", length=50, options={"default"="success"})
      */
-    private $status = self::STATUS_WORKING;
+    private $status = self::STATUS_CREATED;
     
+    const STATUS_CREATED = 'created';
     const STATUS_WORKING = 'working';
     const STATUS_SUCCESS = 'success';
     const STATUS_FAILURE = 'failure';

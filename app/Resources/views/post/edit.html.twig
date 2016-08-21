@@ -24,8 +24,16 @@
     <input class="btn" type="submit" value="Update"/>
     {{ form_end(edit_form) }}
 
-    {{ form_start(delete_form) }}
-    <input class="btn" type="submit" value="Delete">
-    {{ form_end(delete_form) }}
+    <div style="margin-top: 6rem"></div>
+    <div class="divider"></div>
 
+    <div class="mt-10">
+        {{ form_start(delete_form) }}
+        <p>
+            Permanently delete this post.
+        </p>
+        <input class="btn" style="border-color: #de5200; color: #de5200;" type="submit" value="Delete">
+
+        {{ form_end(delete_form) }}
+    </div>
 {% endblock %}

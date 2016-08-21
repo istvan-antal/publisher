@@ -19,7 +19,9 @@ class PostType extends AbstractType {
         $builder
                 ->add('title')
                 ->add('url')
-                ->add('content', TextareaType::class)
+                ->add('content', TextareaType::class, [
+                    'attr' => [ 'rows' => 50 ]
+                ])
                 ->add('state')
         ;
     }

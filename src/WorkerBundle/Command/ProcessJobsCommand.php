@@ -32,6 +32,7 @@ class ProcessJobsCommand extends ContainerAwareCommand {
         try {
             $processor = $this->getContainer()->get('worker_job_processor_'.Inflector::tableize($job->getType()));
             /* @var $processor \WorkerBundle\JobProcessor */
+            $processor->setOutput($this->output);
             $processor->processJob($job);
         } catch (\Exception $e) {
             $jobStatus = WorkerJob::STATUS_FAILURE;
@@ -60,7 +61,7 @@ class ProcessJobsCommand extends ContainerAwareCommand {
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $this->output = $output;
-        $output->writeln("Starting Job processor");
+        //$output->writeln("Starting Job processor");
         
         $this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
         
@@ -74,7 +75,7 @@ class ProcessJobsCommand extends ContainerAwareCommand {
             $this->processJob($job);
         }
         
-        $output->writeln("Job processor done.");
+        //$output->writeln("Job processor done.");
     }
     
     protected function writeln(string $message) {

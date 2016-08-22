@@ -11,7 +11,7 @@ use AppBundle\ContentTransformer;
 use AppBundle\Templating;
 use AppBundle\AssetCompiler;
 
-class Publish implements JobProcessor {
+class Publish extends JobProcessor {
     
     private $em;
     private $projectRootDir;
@@ -61,7 +61,7 @@ class Publish implements JobProcessor {
                 file_put_contents($fileName, $templating->render('ContentTheme/view.html.twig', array(
                     'post' => $post
                 )));
-                //$this->writeln("Written $fileName");
+                $this->writeln("Written $fileName");
             }
 
             $fileName = "$publishDir/index.html";
@@ -69,7 +69,7 @@ class Publish implements JobProcessor {
             file_put_contents($fileName, $templating->render('ContentTheme/index.html.twig', array(
                 'posts' => $posts
             )));
-            //$this->writeln("Written $fileName");
+            $this->writeln("Written $fileName");
         }
     }
 

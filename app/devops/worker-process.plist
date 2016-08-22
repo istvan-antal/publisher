@@ -7,9 +7,9 @@
     <string>worker-process.publisher.istvan.xyz</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/opt/local/bin/php70</string>
-        <string>bin/console</string>
-        <string>worker:process</string>
+        <string>/opt/local/bin/bash</string>
+        <string>-c</string>
+        <string>export PATH="/bin:/usr/bin:/usr/local/bin:/opt/local/bin:$PATH"; pwd; php70 ./bin/console worker:process</string>
     </array>
     <key>WorkingDirectory</key>
     <string>/Users/void/Developer/publisher</string>
@@ -17,8 +17,6 @@
     <string>/Users/void/Developer/publisher/var/worker.stdout</string>
     <key>StandardErrorPath</key>
     <string>/Users/void/Developer/publisher/var/worker.stderr</string>
-    <key>PATH</key>
-    <string>/bin:/usr/bin:/usr/local/bin:/opt/local/bin</string>
     <key>RunAtLoad</key>
     <false/>
     <key>NetworkState</key>

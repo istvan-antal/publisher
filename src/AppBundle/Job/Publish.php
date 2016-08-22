@@ -59,6 +59,7 @@ class Publish extends JobProcessor {
                 $fileName = "$publishDir/".$post->getUrl().'.html';
 
                 file_put_contents($fileName, $templating->render('ContentTheme/view.html.twig', array(
+                    'defaultTitle' => $site->getSiteTitle(),
                     'post' => $post
                 )));
                 $this->writeln("Written $fileName");
@@ -67,6 +68,7 @@ class Publish extends JobProcessor {
             $fileName = "$publishDir/index.html";
 
             file_put_contents($fileName, $templating->render('ContentTheme/index.html.twig', array(
+                'defaultTitle' => $site->getSiteTitle(),
                 'posts' => $posts
             )));
             $this->writeln("Written $fileName");

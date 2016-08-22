@@ -24,6 +24,13 @@ class Site {
     private $name;
     
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $siteTitle;
+    
+    /**
      * @var DateTime
      *
      * @ORM\Column(type="datetime", options={"default"="CURRENT_TIMESTAMP"})
@@ -57,6 +64,24 @@ class Site {
      */
     public function getName() {
         return $this->name;
+    }
+    
+    /**
+     * @param string $siteTitle
+     *
+     * @return Content
+     */
+    public function setSiteTitle($siteTitle) {
+        $this->siteTitle = $siteTitle;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSiteTitle() {
+        return $this->siteTitle;
     }
     
     /**

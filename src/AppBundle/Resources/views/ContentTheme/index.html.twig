@@ -7,4 +7,10 @@
             {{ post.transformedContent | raw }}
         </article>
     {% endfor %}
+    {% if previousPagePath %}
+        <a href="{{ previousPagePath }}">Previous</a>
+    {% endif %}
+    {% if nextPagePath %}
+        <a href="{{ nextPagePath }}">Next</a>
+    {% endif %}
 {% endblock %}

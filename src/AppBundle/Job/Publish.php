@@ -6,6 +6,7 @@ use WorkerBundle\JobProcessor;
 use WorkerBundle\Entity\WorkerJob;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Filesystem\Filesystem;
+use AppBundle\Entity\Site;
 use AppBundle\Entity\Post;
 use AppBundle\ContentTransformer;
 use AppBundle\Templating;
@@ -66,17 +67,49 @@ class Publish extends JobProcessor {
                 $this->writeln("Written $fileName");
             }
 
-            $fileName = "$publishDir/index.html";
-
-            file_put_contents($fileName, $templating->render('ContentTheme/index.html.twig', [
-                'site' => $site,
-                'defaultTitle' => $site->getSiteTitle(),
-                'posts' => $posts
-            ]));
-            $this->writeln("Written $fileName");
+            $this->generateList($site, $posts, $publishDir, $templating);
             
             $deploy = $this->getContainer()->get('publisher_deyploy_'.$site->getDeployType());
             $deploy->execute($site, $publishDir);
+        }
+    }
+    
+    const pageSize = 10;
+    
+    private function generateList(Site $site, $posts, $publishDir, $templating) {
+        $startIndex = 0;
+        $pageNumber = 1;
+        $previousPagePath = null;
+        $size = count($posts);
+        $currentPagePath = 'index.html';
+        
+        while ($startIndex < $size) {
+            $isLastPage = ($startIndex + self::pageSize) > $size;
+            
+            if ($startIndex === 0) {
+                $fileName = "$publishDir/$currentPagePath";
+            } else {
+                $fileName = "$publishDir/$currentPagePath";
+            }
+            
+            $postsToRender = array_slice($posts, $startIndex, self::pageSize);
+            
+            file_put_contents($fileName, $templating->render('ContentTheme/index.html.twig', [
+                'site' => $site,
+                'defaultTitle' => $site->getSiteTitle(),
+                'posts' => $postsToRender,
+                'isLastPage' => $isLastPage,
+                'pageNumber' => $pageNumber,
+                'nextPagePath' => $isLastPage ? null : 'page-'.($pageNumber + 1).'.html',
+                'previousPagePath' => $previousPagePath,
+            ]));
+
+            $this->writeln("Written $fileName");
+            
+            $startIndex += self::pageSize;
+            $previousPagePath = $currentPagePath;
+            $pageNumber++;
+            $currentPagePath = "page-$pageNumber.html";
         }
     }
 

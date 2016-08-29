@@ -58,19 +58,21 @@ class Publish extends JobProcessor {
 
                 $fileName = "$publishDir/".$post->getUrl().'.html';
 
-                file_put_contents($fileName, $templating->render('ContentTheme/view.html.twig', array(
+                file_put_contents($fileName, $templating->render('ContentTheme/view.html.twig', [
+                    'site' => $site,
                     'defaultTitle' => $site->getSiteTitle(),
                     'post' => $post
-                )));
+                ]));
                 $this->writeln("Written $fileName");
             }
 
             $fileName = "$publishDir/index.html";
 
-            file_put_contents($fileName, $templating->render('ContentTheme/index.html.twig', array(
+            file_put_contents($fileName, $templating->render('ContentTheme/index.html.twig', [
+                'site' => $site,
                 'defaultTitle' => $site->getSiteTitle(),
                 'posts' => $posts
-            )));
+            ]));
             $this->writeln("Written $fileName");
             
             $deploy = $this->getContainer()->get('publisher_deyploy_'.$site->getDeployType());

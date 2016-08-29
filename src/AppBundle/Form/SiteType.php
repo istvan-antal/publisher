@@ -21,6 +21,7 @@ class SiteType extends AbstractType {
         $builder
                 ->add('name')
                 ->add('siteTitle')
+                ->add('webTrackingCode')
                 ->add('deployType')
                 ->add($builder->create('deploySettings', TextareaType::class)->addModelTransformer(new ArrayToJSONStringTransformer()))
         ;

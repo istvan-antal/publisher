@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Site;
 use AppBundle\Form\SiteType;
+use WorkerBundle\Entity\WorkerJob;
 
 /**
  * Site controller.
@@ -86,6 +87,11 @@ class SiteController extends Controller {
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($site);
+            
+            $job = new WorkerJob();
+            $job->setType('Publish');
+            $em->persist($job);
+            
             $em->flush();
 
             return $this->redirectToRoute('site_edit', array('id' => $site->getId()));

@@ -34,6 +34,13 @@ class Site {
     /**
      * @var string
      *
+     * @ORM\Column(type="text")
+     */
+    private $webTrackingCode;
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=50)
      */
     private $deployType;
@@ -79,6 +86,16 @@ class Site {
 
     public function getSiteTitle() : string {
         return $this->siteTitle;
+    }
+    
+    public function getWebTrackingCode() : string {
+        return $this->webTrackingCode;
+    }
+    
+    public function setWebTrackingCode(string $webTrackingCode) : Site {
+        $this->webTrackingCode = $webTrackingCode;
+
+        return $this;
     }
     
     public function getDeployType() : string {

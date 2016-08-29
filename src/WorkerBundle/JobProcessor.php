@@ -16,7 +16,7 @@ abstract class JobProcessor {
     
     private $container;
     
-    public function setContainer(ContainerInterface $container = NULL) {
+    public function setContainer(ContainerInterface $container = null) {
         $this->container = $container;
     }
     

@@ -41,10 +41,17 @@ class Site {
     /**
      * @var string
      *
+     * @ORM\Column(type="text")
+     */
+    private $webPostFooterCode;
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=50)
      */
     private $deployType;
-    
+   
     /**
      * @var array
      *
@@ -94,6 +101,16 @@ class Site {
     
     public function setWebTrackingCode(string $webTrackingCode) : Site {
         $this->webTrackingCode = $webTrackingCode;
+
+        return $this;
+    }
+    
+    public function getWebPostFooterCode() : string {
+        return $this->webPostFooterCode;
+    }
+    
+    public function setWebPostFooterCode(string $webPostFooterCode) : Site {
+        $this->webPostFooterCode = $webPostFooterCode;
 
         return $this;
     }

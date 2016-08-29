@@ -33,6 +33,7 @@ class ProcessJobsCommand extends ContainerAwareCommand {
             $processor = $this->getContainer()->get('worker_job_processor_'.Inflector::tableize($job->getType()));
             /* @var $processor \WorkerBundle\JobProcessor */
             $processor->setOutput($this->output);
+            $processor->setContainer($this->getContainer());
             $processor->processJob($job);
         } catch (\Exception $e) {
             $jobStatus = WorkerJob::STATUS_FAILURE;

@@ -72,6 +72,9 @@ class Publish extends JobProcessor {
                 'posts' => $posts
             )));
             $this->writeln("Written $fileName");
+            
+            $deploy = $this->getContainer()->get('publisher_deyploy_'.$site->getDeployType());
+            $deploy->execute($site, $publishDir);
         }
     }
 

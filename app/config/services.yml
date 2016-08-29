@@ -8,7 +8,10 @@ services:
         class: AppBundle\Job\Publish
         arguments:
             - "@doctrine.orm.entity_manager"
-            - '%kernel.root_dir%'    
+            - '%kernel.root_dir%'  
+            
+    publisher_deyploy_command:
+        class: AppBundle\Deployment\Command
         
     time_format_twig_service:
         class: AppBundle\Twig\Extension\TimeFormatExtension

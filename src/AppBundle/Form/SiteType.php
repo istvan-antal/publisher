@@ -5,6 +5,9 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+
+use AppBundle\Transformer\ArrayToJSONStringTransformer;
 
 class SiteType extends AbstractType {
 
@@ -18,6 +21,8 @@ class SiteType extends AbstractType {
         $builder
                 ->add('name')
                 ->add('siteTitle')
+                ->add('deployType')
+                ->add($builder->create('deploySettings', TextareaType::class)->addModelTransformer(new ArrayToJSONStringTransformer()))
         ;
     }
 

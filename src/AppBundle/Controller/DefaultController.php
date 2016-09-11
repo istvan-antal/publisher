@@ -6,7 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use AppBundle\Entity\Post;
+use AppBundle\Entity\Article;
 
 class DefaultController extends Controller {
     /**
@@ -15,11 +15,11 @@ class DefaultController extends Controller {
      */
     public function indexAction() {
         $em = $this->getDoctrine();
-        $postsRepository = $em->getRepository('AppBundle:Post');
-        /* @var $postsRepository \AppBundle\Entity\PostRepository */
+        $postsRepository = $em->getRepository('AppBundle:Article');
+        /* @var $postsRepository \AppBundle\Entity\ArticleRepository */
         
         $siteRepository = $em->getRepository('AppBundle:Site');
-        /* @var $postsRepository \AppBundle\Entity\PostRepository */
+        /* @var $postsRepository \Doctrine\ORM\EntityRepository */
         
         $workerRepository = $em->getRepository('WorkerBundle:WorkerJob');
         /* @var $workerRepository \Doctrine\ORM\EntityRepository */

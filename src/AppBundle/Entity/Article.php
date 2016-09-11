@@ -5,10 +5,10 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Entity\PostRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\ArticleRepository")
  * @ORM\Table
  */
-class Post {
+class Article {
 
     /**
      * @ORM\Id

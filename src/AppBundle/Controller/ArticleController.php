@@ -6,19 +6,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Entity\Post;
-use AppBundle\Form\PostType;
+use AppBundle\Entity\Article;
+use AppBundle\Form\ArticleType;
 use WorkerBundle\Entity\WorkerJob;
 
 /**
- * Post controller.
+ * Article controller.
  *
  * @Route("/posts")
  */
-class PostController extends Controller {
+class ArticleController extends Controller {
 
     /**
-     * Lists all Post entities.
+     * Lists all Article entities.
      *
      * @Route("/", name="posts_index")
      * @Method("GET")
@@ -26,7 +26,7 @@ class PostController extends Controller {
     public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
-        $posts = $em->getRepository('AppBundle:Post')->findBy(array(), array('created' => 'desc'));
+        $posts = $em->getRepository('AppBundle:Article')->findBy(array(), array('created' => 'desc'));
 
         return $this->render('post/index.html.twig', array(
                     'posts' => $posts,
@@ -34,14 +34,14 @@ class PostController extends Controller {
     }
 
     /**
-     * Creates a new Post entity.
+     * Creates a new Article entity.
      *
      * @Route("/new", name="posts_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request) {
-        $post = new Post();
-        $form = $this->createForm('AppBundle\Form\PostType', $post);
+        $post = new Article();
+        $form = $this->createForm('AppBundle\Form\ArticleType', $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -60,12 +60,12 @@ class PostController extends Controller {
     }
 
     /**
-     * Finds and displays a Post entity.
+     * Finds and displays a Article entity.
      *
      * @Route("/{id}", name="posts_show")
      * @Method("GET")
      */
-    public function showAction(Post $post) {
+    public function showAction(Article $post) {
         $deleteForm = $this->createDeleteForm($post);
 
         return $this->render('post/show.html.twig', array(
@@ -75,14 +75,14 @@ class PostController extends Controller {
     }
 
     /**
-     * Displays a form to edit an existing Post entity.
+     * Displays a form to edit an existing Article entity.
      *
      * @Route("/{id}/edit", name="posts_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Post $post) {
+    public function editAction(Request $request, Article $post) {
         $deleteForm = $this->createDeleteForm($post);
-        $editForm = $this->createForm('AppBundle\Form\PostType', $post);
+        $editForm = $this->createForm('AppBundle\Form\ArticleType', $post);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -106,12 +106,12 @@ class PostController extends Controller {
     }
 
     /**
-     * Deletes a Post entity.
+     * Deletes a Article entity.
      *
      * @Route("/{id}", name="posts_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Post $post) {
+    public function deleteAction(Request $request, Article $post) {
         $form = $this->createDeleteForm($post);
         $form->handleRequest($request);
 
@@ -125,13 +125,13 @@ class PostController extends Controller {
     }
 
     /**
-     * Creates a form to delete a Post entity.
+     * Creates a form to delete a Article entity.
      *
-     * @param Post $post The Post entity
+     * @param Article $post The Article entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Post $post) {
+    private function createDeleteForm(Article $post) {
         return $this->createFormBuilder()
                         ->setAction($this->generateUrl('posts_delete', array('id' => $post->getId())))
                         ->setMethod('DELETE')

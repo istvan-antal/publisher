@@ -4,7 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
-class PostRepository extends EntityRepository {
+class ArticleRepository extends EntityRepository {
 
     public function getCountsByState() {
         $result = [];

@@ -7,7 +7,7 @@ use WorkerBundle\Entity\WorkerJob;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Filesystem\Filesystem;
 use AppBundle\Entity\Site;
-use AppBundle\Entity\Post;
+use AppBundle\Entity\Article;
 use AppBundle\ContentTransformer;
 use AppBundle\Templating;
 use AppBundle\AssetCompiler;
@@ -27,7 +27,7 @@ class Publish extends JobProcessor {
         $templating = new Templating();
         $compiler = new AssetCompiler();
         
-        $postRepository = $this->em->getRepository('AppBundle:Post');
+        $postRepository = $this->em->getRepository('AppBundle:Article');
         /* @var $postRepository \Doctrine\ORM\EntityRepository */
         
         $siteRepository = $this->em->getRepository('AppBundle:Site');
@@ -51,10 +51,10 @@ class Publish extends JobProcessor {
 
             $compiler->compile('src/AppBundle/Resources/views/ContentTheme/main.js', $publishDir);
 
-            $posts = $postRepository->findBy([ 'site' => $site, 'state' => Post::STATE_PUBLISHED ], ['created' => 'desc']);
+            $posts = $postRepository->findBy([ 'site' => $site, 'state' => Article::STATE_PUBLISHED ], ['created' => 'desc']);
 
             foreach ($posts as $post) {
-                /* @var $post Post */
+                /* @var $post Article */
                 $post->setTransformedContent($transformer->parse($post->getContent()));
 
                 $fileName = "$publishDir/".$post->getUrl().'.html';
@@ -74,7 +74,7 @@ class Publish extends JobProcessor {
         }
     }
     
-    const pageSize = 10;
+    const PAGE_SIZE = 10;
     
     private function generateList(Site $site, $posts, $publishDir, $templating) {
         $startIndex = 0;
@@ -84,15 +84,11 @@ class Publish extends JobProcessor {
         $currentPagePath = 'index.html';
         
         while ($startIndex < $size) {
-            $isLastPage = ($startIndex + self::pageSize) > $size;
+            $isLastPage = ($startIndex + self::PAGE_SIZE) > $size;
             
-            if ($startIndex === 0) {
-                $fileName = "$publishDir/$currentPagePath";
-            } else {
-                $fileName = "$publishDir/$currentPagePath";
-            }
+            $fileName = "$publishDir/$currentPagePath";
             
-            $postsToRender = array_slice($posts, $startIndex, self::pageSize);
+            $postsToRender = array_slice($posts, $startIndex, self::PAGE_SIZE);
             
             file_put_contents($fileName, $templating->render('ContentTheme/index.html.twig', [
                 'site' => $site,
@@ -106,7 +102,7 @@ class Publish extends JobProcessor {
 
             $this->writeln("Written $fileName");
             
-            $startIndex += self::pageSize;
+            $startIndex += self::PAGE_SIZE;
             $previousPagePath = $currentPagePath;
             $pageNumber++;
             $currentPagePath = "page-$pageNumber.html";

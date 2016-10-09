@@ -9,7 +9,7 @@ use \DateTime;
  * @ORM\Entity
  */
 class Site {
-    
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -23,49 +23,56 @@ class Site {
      * @ORM\Column(type="string", length=255)
      */
     private $name;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255)
      */
     private $siteTitle;
-    
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $baseUrl;
+
     /**
      * @var string
      *
      * @ORM\Column(type="text")
      */
     private $webTrackingCode;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(type="text")
      */
     private $webPostFooterCode;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=50)
      */
     private $deployType;
-   
+
     /**
      * @var array
      *
      * @ORM\Column(type="json_array")
      */
     private $deploySettings;
-    
+
     /**
      * @var DateTime
      *
      * @ORM\Column(type="datetime", options={"default"="CURRENT_TIMESTAMP"})
      */
     private $createdAt;
-    
+
     public function __construct() {
         $this->createdAt = new \DateTime();
         $this->deploySettings = [];
@@ -94,41 +101,51 @@ class Site {
     public function getSiteTitle() : string {
         return $this->siteTitle;
     }
-    
+
+    public function setBaseUrl(string $baseUrl) : Site {
+        $this->baseUrl = $baseUrl;
+
+        return $this;
+    }
+
+    public function getBaseUrl() : string {
+        return $this->baseUrl;
+    }
+
     public function getWebTrackingCode() : string {
         return $this->webTrackingCode;
     }
-    
+
     public function setWebTrackingCode(string $webTrackingCode) : Site {
         $this->webTrackingCode = $webTrackingCode;
 
         return $this;
     }
-    
+
     public function getWebPostFooterCode() : string {
         return $this->webPostFooterCode;
     }
-    
+
     public function setWebPostFooterCode(string $webPostFooterCode) : Site {
         $this->webPostFooterCode = $webPostFooterCode;
 
         return $this;
     }
-    
+
     public function getDeployType() : string {
         return $this->deployType;
     }
-    
+
     public function setDeployType(string $deployType) : Site {
         $this->deployType = $deployType;
 
         return $this;
     }
-    
+
     public function getDeploySettings() : array {
         return $this->deploySettings;
     }
-    
+
     public function setDeploySettings(array $deploySettings) : Site {
         $this->deploySettings = $deploySettings;
 
@@ -144,9 +161,9 @@ class Site {
     public function getCreatedAt() : DateTime {
         return $this->createdAt;
     }
-    
+
     public function __toString() {
         return $this->getName();
     }
-    
+
 }

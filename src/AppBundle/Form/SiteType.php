@@ -21,6 +21,7 @@ class SiteType extends AbstractType {
         $builder
                 ->add('name')
                 ->add('siteTitle')
+                ->add('baseUrl')
                 ->add('webTrackingCode', TextareaType::class, [
                     'attr' => [ 'rows' => 10 ]
                 ])

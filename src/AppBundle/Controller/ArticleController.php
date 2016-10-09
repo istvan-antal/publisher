@@ -48,6 +48,11 @@ class ArticleController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $post->setUser($this->getUser());
             $em->persist($post);
+            
+            $job = new WorkerJob();
+            $job->setType('Publish');
+            $em->persist($job);
+            
             $em->flush();
 
             return $this->redirectToRoute('posts_show', array('id' => $post->getId()));

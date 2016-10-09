@@ -16,7 +16,7 @@ class Article {
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+
     /**
      * @var Site
      *
@@ -24,6 +24,16 @@ class Article {
      * @ORM\JoinColumn(name="site_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
      */
     protected $site;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type = self::TYPE_POST;
+
+    const TYPE_POST = 'post';
+    const TYPE_PAGE = 'page';
 
     /**
      * @var string
@@ -102,6 +112,16 @@ class Article {
      */
     public function getState() {
         return $this->state;
+    }
+
+    public function setType(string $type) : Article {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getType() : string {
+        return $this->type;
     }
 
     /**
@@ -193,7 +213,7 @@ class Article {
     public function getUser() {
         return $this->user;
     }
-    
+
     /**
      * @param Site $site
      *
@@ -211,14 +231,14 @@ class Article {
     public function getSite() {
         return $this->site;
     }
-    
+
     private $transformedContent;
-    
+
     public function setTransformedContent($content) {
         $this->transformedContent = $content;
         return $this;
     }
-    
+
     public function getTransformedContent() {
         return $this->transformedContent;
     }

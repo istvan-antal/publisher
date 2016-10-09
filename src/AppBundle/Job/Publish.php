@@ -13,26 +13,29 @@ use AppBundle\Templating;
 use AppBundle\AssetCompiler;
 
 class Publish extends JobProcessor {
-    
+
     private $em;
     private $projectRootDir;
-    
+    private $transformer;
+    private $templating;
+
     public function __construct(EntityManager $entityManager, string $kernelRootDir) {
         $this->em = $entityManager;
         $this->projectRootDir = $kernelRootDir.'/..';
+        $this->transformer = new ContentTransformer();
+        $this->templating = new Templating();
     }
-    
+
     public function processJob(WorkerJob $job) {
-        $transformer = new ContentTransformer();
-        $templating = new Templating();
+        
         $compiler = new AssetCompiler();
-        
-        $postRepository = $this->em->getRepository('AppBundle:Article');
-        /* @var $postRepository \Doctrine\ORM\EntityRepository */
-        
+
+        $articleRepository = $this->em->getRepository('AppBundle:Article');
+        /* @var $articleRepository \AppBundle\Entity\ArticleRepository */
+
         $siteRepository = $this->em->getRepository('AppBundle:Site');
         /* @var $siteRepository \Doctrine\ORM\EntityRepository */
-        
+
         foreach ($siteRepository->findAll() as $site) {
             /* @var $site \AppBundle\Entity\Site */
             $publishedContentDir = "$this->projectRootDir/var/publishedContent";
@@ -51,46 +54,53 @@ class Publish extends JobProcessor {
 
             $compiler->compile('src/AppBundle/Resources/views/ContentTheme/main.js', $publishDir);
 
-            $posts = $postRepository->findBy([ 'site' => $site, 'state' => Article::STATE_PUBLISHED ], ['created' => 'desc']);
+            $posts = $articleRepository->findPublishedPostsForSite($site);
 
-            foreach ($posts as $post) {
-                /* @var $post Article */
-                $post->setTransformedContent($transformer->parse($post->getContent()));
-
-                $fileName = "$publishDir/".$post->getUrl().'.html';
-
-                file_put_contents($fileName, $templating->render('ContentTheme/view.html.twig', [
-                    'site' => $site,
-                    'defaultTitle' => $site->getSiteTitle(),
-                    'post' => $post
-                ]));
-                $this->writeln("Written $fileName");
+            foreach ($posts as $article) {
+                $this->generateArticle($publishDir, $site, $article);
             }
 
-            $this->generateList($site, $posts, $publishDir, $templating);
+            $this->generateList($site, $posts, $publishDir);
             
+            foreach ($articleRepository->findPublishedPagesForSite($site) as $article) {
+                $this->generateArticle($publishDir, $site, $article);
+            }
+
             $deploy = $this->getContainer()->get('publisher_deyploy_'.$site->getDeployType());
             $deploy->execute($site, $publishDir);
         }
     }
     
+    private function generateArticle(string $publishDir, Site $site, Article $article) {
+        $article->setTransformedContent($this->transformer->parse($article->getContent()));
+
+        $fileName = "$publishDir/".$article->getUrl().'.html';
+
+        file_put_contents($fileName, $this->templating->render('ContentTheme/view.html.twig', [
+            'site' => $site,
+            'defaultTitle' => $site->getSiteTitle(),
+            'post' => $article
+        ]));
+        $this->writeln("Written $fileName");
+    }
+
     const PAGE_SIZE = 10;
-    
-    private function generateList(Site $site, $posts, $publishDir, $templating) {
+
+    private function generateList(Site $site, $posts, $publishDir) {
         $startIndex = 0;
         $pageNumber = 1;
         $previousPagePath = null;
         $size = count($posts);
         $currentPagePath = 'index.html';
-        
+
         while ($startIndex < $size) {
             $isLastPage = ($startIndex + self::PAGE_SIZE) > $size;
-            
+
             $fileName = "$publishDir/$currentPagePath";
-            
+
             $postsToRender = array_slice($posts, $startIndex, self::PAGE_SIZE);
-            
-            file_put_contents($fileName, $templating->render('ContentTheme/index.html.twig', [
+
+            file_put_contents($fileName, $this->templating->render('ContentTheme/index.html.twig', [
                 'site' => $site,
                 'defaultTitle' => $site->getSiteTitle(),
                 'posts' => $postsToRender,
@@ -101,7 +111,7 @@ class Publish extends JobProcessor {
             ]));
 
             $this->writeln("Written $fileName");
-            
+
             $startIndex += self::PAGE_SIZE;
             $previousPagePath = $currentPagePath;
             $pageNumber++;

@@ -22,6 +22,7 @@ class ArticleType extends AbstractType {
                 ->add('content', TextareaType::class, [
                     'attr' => [ 'rows' => 50 ]
                 ])
+                ->add('type')
                 ->add('state')
                 ->add('site')
         ;

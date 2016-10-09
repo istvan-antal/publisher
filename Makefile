@@ -17,9 +17,8 @@ build: $(requirements)
 	php70 bin/console doctrine:migrations:migrate --no-interaction
 	make test
 
-web/main.css: node_modules
-	cp node_modules/spectre.css/dist/spectre.min.css web/main.css
-	touch web/main.css
+web/main.css: node_modules src/AppBundle/Resources/assets/main.css
+	./bin/compile.js --main=src/AppBundle/Resources/assets/main.js --out=web/
 
 test:
 	php70 ./vendor/bin/phpunit -c .

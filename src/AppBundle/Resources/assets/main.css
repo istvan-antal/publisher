@@ -1,0 +1,38 @@
+@import "~spectre.css/dist/spectre.css";
+
+body {
+    background-color: #21252b;
+    color: #dedede;
+}
+
+a, a:visited, a:link {
+    color: #dedede;
+}
+
+.breadcrumb .breadcrumb-item:last-child, .breadcrumb .breadcrumb-item:last-child a {
+    color: #c1c1c1;
+    pointer-events: none;
+}
+
+.state-draft {
+    background-color: #384454;
+}
+
+.table th, .table td {
+    border-bottom: .1rem solid #777777;
+}
+
+.table th {
+    border-color: #777777;
+}
+
+.form-input {
+    color: #dbdcde;
+    background-color: #282c34;
+    border-radius: 0;
+    border: .1rem solid #3c3d42;
+}
+
+.form-input:focus {
+    border-color: #6a6d86;
+}

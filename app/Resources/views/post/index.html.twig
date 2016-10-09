@@ -25,7 +25,7 @@
         </thead>
         <tbody>
         {% for post in posts %}
-            <tr{% if post.state == 'draft' %} style="background-color: beige;"{% endif %}>
+            <tr{% if post.state == 'draft' %} class="state-draft"{% endif %}>
                 <td><a href="{{ path('posts_edit', { 'id': post.id }) }}">{{ post.title }}</a></td>
                 <td>{% if post.created %}{{ post.created | time_format }} ago{% endif %}</td>
             </tr>

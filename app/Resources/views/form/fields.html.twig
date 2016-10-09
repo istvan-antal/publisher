@@ -3,9 +3,8 @@
 {% block form_row %}
 {% spaceless %}
     <div class="form-group">
-        {{ form_label(form) }}
-        {{ form_errors(form) }}
         {{ form_widget(form) }}
+        {{ form_errors(form) }}
     </div>
 {% endspaceless %}
 {% endblock form_row %}
@@ -21,6 +20,7 @@
     {% if type is not defined or type not in ['file', 'hidden'] %}
         {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-input')|trim}) -%}
     {% endif %}
+    {%- set attr = attr|merge({placeholder: name | humanize }) -%}
     {{- parent() -}}
 {%- endblock form_widget_simple %}
 

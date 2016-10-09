@@ -22,49 +22,49 @@ class Site {
      *
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $name = '';
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255)
      */
-    private $siteTitle;
+    private $siteTitle = '';
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255)
      */
-    private $baseUrl;
+    private $baseUrl = '';
 
     /**
      * @var string
      *
      * @ORM\Column(type="text")
      */
-    private $webTrackingCode;
+    private $webTrackingCode = '';
 
     /**
      * @var string
      *
      * @ORM\Column(type="text")
      */
-    private $webPostFooterCode;
+    private $webPostFooterCode = '';
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=50)
      */
-    private $deployType;
+    private $deployType = '';
 
     /**
      * @var array
      *
      * @ORM\Column(type="json_array")
      */
-    private $deploySettings;
+    private $deploySettings = [];
 
     /**
      * @var DateTime

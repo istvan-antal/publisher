@@ -21,10 +21,16 @@ class SiteType extends AbstractType {
         $builder
                 ->add('name')
                 ->add('siteTitle')
-                ->add('webTrackingCode')
-                ->add('webPostFooterCode')
+                ->add('webTrackingCode', TextareaType::class, [
+                    'attr' => [ 'rows' => 10 ]
+                ])
+                ->add('webPostFooterCode', TextareaType::class, [
+                    'attr' => [ 'rows' => 10 ]
+                ])
                 ->add('deployType')
-                ->add($builder->create('deploySettings', TextareaType::class)->addModelTransformer(new ArrayToJSONStringTransformer()))
+                ->add($builder->create('deploySettings', TextareaType::class, [
+                    'attr' => [ 'rows' => 5 ]
+                ])->addModelTransformer(new ArrayToJSONStringTransformer()))
         ;
     }
 
